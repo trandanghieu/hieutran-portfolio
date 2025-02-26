@@ -1,0 +1,1 @@
+export const HERO_CONTENT = "I am Tran Dang Hieu, a graduate of Da Nang University of Science and Technology, majoring in Information Technology. I specialize in building web applications using Java, Ruby, and related frameworks like Spring Boot and Ruby on Rails. I am proficient in English and Japanese.";

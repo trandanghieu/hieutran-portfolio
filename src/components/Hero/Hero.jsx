@@ -1,4 +1,5 @@
 import { Briefcase, GraduationCap, Award } from 'lucide-react';
+import { motion } from "framer-motion";
 import avatar from "../../assets/1762969814216.png";
 import isbLogo from "../../assets/isb.jpg";
 import zigexnLogo from "../../assets/zigexn.png";
@@ -8,6 +9,22 @@ import dutLogo from "../../assets/dut.jpg";
 
 const HERO_CONTENT =
   "I am a passionate Java Developer with a strong foundation in software development and a keen interest in building scalable applications. Currently working at ISB Vietnam Company, I bring hands-on experience in full-stack development and a commitment to continuous learning.";
+
+// Animation variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: { 
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    }
+  }
+};
 
 const Hero = () => {
   const startDate = new Date(2025, 2); // Tháng 3/2025 (JS đếm tháng từ 0)
@@ -28,7 +45,14 @@ const Hero = () => {
   return (
     <div className="pb-4 lg:mb-36 max-w-7xl mx-auto px-4">
       {/* Hero Section */}
-      <div className="flex flex-wrap lg:flex-row-reverse mb-12">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={fadeInUp}
+        transition={{ duration: 0.8 }}
+        className="flex flex-wrap lg:flex-row-reverse mb-12"
+      >
         <div className="w-full lg:w-1/2">
           <div className="flex justify-center lg:p-8">
             <img
@@ -51,10 +75,17 @@ const Hero = () => {
             </p>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Experience Section */}
-      <div className="mb-12 border border-stone-800 rounded-lg p-6">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={fadeInUp}
+        transition={{ duration: 0.8, delay: 0.1 }}
+        className="mb-12 border border-stone-800 rounded-lg p-6"
+      >
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-3xl font-semibold flex items-center gap-3 text-white">
             <Briefcase className="w-8 h-8" />
@@ -62,9 +93,15 @@ const Hero = () => {
           </h3>
         </div>
 
-        <div className="space-y-6">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="space-y-6"
+        >
           {/* Current Job */}
-          <div className="flex gap-4">
+          <motion.div variants={fadeInUp} className="flex gap-4">
             <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
               <img src={isbLogo} alt="ISB Vietnam" className="w-full h-full object-cover" />
             </div>
@@ -76,10 +113,10 @@ const Hero = () => {
               </p>
               <p className="text-stone-400 text-sm">Ho Chi Minh City, Vietnam · On-site</p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Previous Job */}
-          <div className="flex gap-4">
+          <motion.div variants={fadeInUp} className="flex gap-4">
             <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
               <img src={zigexnLogo} alt="ZIGExN VeNtura" className="w-full h-full object-cover" />
             </div>
@@ -89,12 +126,19 @@ const Hero = () => {
               <p className="text-stone-400 text-sm">Sep 2024 - Dec 2024 · 4 mos</p>
               <p className="text-stone-400 text-sm">Da Nang City, Vietnam · On-site</p>
             </div>
-          </div>
-        </div>
-      </div>
+          </motion.div>
+        </motion.div>
+      </motion.div>
 
       {/* Education Section */}
-      <div className="mb-12 border border-stone-800 rounded-lg p-6">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={fadeInUp}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="mb-12 border border-stone-800 rounded-lg p-6"
+      >
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-3xl font-semibold flex items-center gap-3 text-white">
             <GraduationCap className="w-8 h-8" />
@@ -102,22 +146,29 @@ const Hero = () => {
           </h3>
         </div>
 
-        <div className="flex gap-4">
-          <div className="w-16 h-16 bg-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0">
+        <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className="flex gap-4">
+          <motion.div variants={fadeInUp} className="w-16 h-16 bg-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0">
             <img src={dutLogo} alt="DUT" className="w-full h-full object-cover" />
-          </div>
-          <div className="flex-1">
+          </motion.div>
+          <motion.div variants={fadeInUp} className="flex-1">
             <h4 className="text-xl font-semibold text-white">
               Danang University of Science and Technology
             </h4>
             <p className="text-stone-300">Bachelor&rsquo;s degree, Information Technology</p>
             <p className="text-stone-400 text-sm">Aug 2020 - Aug 2024</p>
-          </div>
-        </div>
-      </div>
+          </motion.div>
+        </motion.div>
+      </motion.div>
 
       {/* Licenses & Certifications Section */}
-      <div className="border border-stone-800 rounded-lg p-6">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={fadeInUp}
+        transition={{ duration: 0.8, delay: 0.3 }}
+        className="border border-stone-800 rounded-lg p-6"
+      >
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-3xl font-semibold flex items-center gap-3 text-white">
             <Award className="w-8 h-8" />
@@ -125,9 +176,9 @@ const Hero = () => {
           </h3>
         </div>
 
-        <div className="space-y-6">
+        <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className="space-y-6">
           {/* TOEIC */}
-          <div className="flex gap-4">
+          <motion.div variants={fadeInUp} className="flex gap-4">
             <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
               <img src={iigLogo} alt="IIG Vietnam" className="w-full h-full object-cover" />
             </div>
@@ -136,10 +187,10 @@ const Hero = () => {
               <p className="text-stone-300">IIG Vietnam</p>
               <p className="text-stone-400 text-sm">Issued Nov 2025 · Expires Nov 2027</p>
             </div>
-          </div>
+          </motion.div>
 
           {/* JLPT */}
-          <div className="flex gap-4">
+          <motion.div variants={fadeInUp} className="flex gap-4">
             <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
               <img src={jlptLogo} alt="JLPT" className="w-full h-full object-cover" />
             </div>
@@ -148,9 +199,9 @@ const Hero = () => {
               <p className="text-stone-300">JLPT - Japanese Language Proficiency Test</p>
               <p className="text-stone-400 text-sm">Issued Dec 2024</p>
             </div>
-          </div>
-        </div>
-      </div>
+          </motion.div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };

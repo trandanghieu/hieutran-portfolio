@@ -1,4 +1,4 @@
-import { FaLinkedin, FaFacebook, FaGithub } from "react-icons/fa";
+import { FaLinkedin, FaFacebook } from "react-icons/fa";
 
 const Navbar = () => {
   return (
@@ -32,7 +32,7 @@ const Navbar = () => {
 
       <div className="m-8 flex items-center justify-center gap-4 text-2xl">
         <a
-          href="www.linkedin.com/in/trandanghieu"
+          href="https://www.linkedin.com/in/trandanghieu"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="LinkedIn"
@@ -47,15 +47,6 @@ const Navbar = () => {
           aria-label="Facebook"
         >
           <FaFacebook />
-        </a>
-
-        <a
-          href="/"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="GitHub"
-        >
-          <FaGithub />
         </a>
       </div>
     </nav>

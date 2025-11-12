@@ -1,23 +1,136 @@
-import avatar from "../../assets/avatar-1.jpg";
-import { HERO_CONTENT } from "../../data/data";
+import React from 'react';
+import { Briefcase, GraduationCap, Award } from 'lucide-react';
+import avatar from "../../assets/1762969814216.png";
+import isbLogo from "../../assets/isb.jpg";
+import zigexnLogo from "../../assets/zigexn.png";
+import iigLogo from "../../assets/iig.png";
+import jlptLogo from "../../assets/jlpt.webp";
+import dutLogo from "../../assets/dut.jpg";
+
+const HERO_CONTENT = "I am a passionate Java Developer with a strong foundation in software development and a keen interest in building scalable applications. Currently working at ISB Vietnam Company, I bring hands-on experience in full-stack development and a commitment to continuous learning.";
 
 const Hero = () => {
   return (
-    <div className="pb-4 lg:mb-36">
-      <div className="flex flex-wrap lg:flex-row-reverse">
+    <div className="pb-4 lg:mb-36 max-w-7xl mx-auto px-4">
+      {/* Hero Section */}
+      <div className="flex flex-wrap lg:flex-row-reverse mb-12">
         <div className="w-full lg:w-1/2">
           <div className="flex justify-center lg:p-8">
-            <img src={avatar} alt="Hieu Tran" className="border border-stone-900 rouded-3xl w-[450px] h-[500px] object-cover"/>
+            <img
+              src={avatar}
+              alt="Hieu Tran"
+              className="border border-stone-900 rounded-3xl w-[450px] h-[500px] object-cover"
+            />
           </div>
         </div>
         <div className="w-full lg:w-1/2">
           <div className="flex flex-col items-center lg:items-start mt-10">
-            <h2 className="pb-2 text-4xl tracking-tighter lg:text-8xl">Hieu Tran</h2>
-            <span className="bg-gradient-to-r from-stone-300 to-stone-600 bg-clip-text text-3xl tracking-tight"> Java Developer</span>
-            <p className="my-2 max-w-lg py-6 text-xl leading-relaxed tracking-tighter text-justify"> {HERO_CONTENT}</p>
-            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" download className="bg-white rounded-full p-4 text-sm text-stone-800 mb-10">Download Resume</a>
+            <h2 className="pb-2 text-4xl tracking-tighter lg:text-8xl text-white">
+              Hieu Tran
+            </h2>
+            <span className="text-stone-200 text-3xl tracking-tight font-medium">
+              Software Engineer
+            </span>
+            <p className="my-2 max-w-lg py-6 text-xl leading-relaxed tracking-tighter text-justify text-stone-300">
+              {HERO_CONTENT}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Experience Section */}
+      <div className="mb-12 border border-stone-800 rounded-lg p-6">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-3xl font-semibold flex items-center gap-3 text-white">
+            <Briefcase className="w-8 h-8" />
+            Experience
+          </h3>
+        </div>
+
+        <div className="space-y-6">
+          {/* Current Job */}
+          <div className="flex gap-4">
+            <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
+              <img src={isbLogo} alt="ISB Vietnam" className="w-full h-full object-cover" />
+            </div>
+            <div className="flex-1">
+              <h4 className="text-xl font-semibold text-white">Java Software Developer</h4>
+              <p className="text-stone-300">ISB Vietnam Company (IVC) · Full-time</p>
+              <p className="text-stone-400 text-sm">Mar 2025 - Present · 9 mos</p>
+              <p className="text-stone-400 text-sm">Ho Chi Minh City, Vietnam · On-site</p>
+            </div>
           </div>
 
+          {/* Previous Job */}
+          <div className="flex gap-4">
+            <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
+              <img src={zigexnLogo} alt="ZIGExN VeNtura" className="w-full h-full object-cover" />
+            </div>
+            <div className="flex-1">
+              <h4 className="text-xl font-semibold text-white">Intern Ruby On Rails</h4>
+              <p className="text-stone-300">ZIGExN VeNtura Co., Ltd · Full-time</p>
+              <p className="text-stone-400 text-sm">Sep 2024 - Dec 2024 · 4 mos</p>
+              <p className="text-stone-400 text-sm">Da Nang City, Vietnam · On-site</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Education Section */}
+      <div className="mb-12 border border-stone-800 rounded-lg p-6">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-3xl font-semibold flex items-center gap-3 text-white">
+            <GraduationCap className="w-8 h-8" />
+            Education
+          </h3>
+        </div>
+
+        <div className="flex gap-4">
+          <div className="w-16 h-16 bg-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0">
+              <img src={dutLogo} alt="DUT" className="w-full h-full object-cover" />
+
+          </div>
+          <div className="flex-1">
+            <h4 className="text-xl font-semibold text-white">Danang University of Science and Technology</h4>
+            <p className="text-stone-300">Bachelor's degree, Information Technology</p>
+            <p className="text-stone-400 text-sm">Aug 2020 - Aug 2024</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Licenses & Certifications Section */}
+      <div className="border border-stone-800 rounded-lg p-6">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-3xl font-semibold flex items-center gap-3 text-white">
+            <Award className="w-8 h-8" />
+            Licenses & certifications
+          </h3>
+        </div>
+
+        <div className="space-y-6">
+          {/* TOEIC */}
+          <div className="flex gap-4">
+            <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
+              <img src={iigLogo} alt="IIG Vietnam" className="w-full h-full object-cover" />
+            </div>
+            <div className="flex-1">
+              <h4 className="text-xl font-semibold text-white">TOEIC 755</h4>
+              <p className="text-stone-300">IIG Vietnam</p>
+              <p className="text-stone-400 text-sm">Issued Nov 2025 · Expires Nov 2027</p>
+            </div>
+          </div>
+
+          {/* JLPT */}
+          <div className="flex gap-4">
+            <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
+              <img src={jlptLogo} alt="JLPT" className="w-full h-full object-cover" />
+            </div>
+            <div className="flex-1">
+              <h4 className="text-xl font-semibold text-white">N4</h4>
+              <p className="text-stone-300">JLPT - Japanese Language Proficiency Test</p>
+              <p className="text-stone-400 text-sm">Issued Dec 2024</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

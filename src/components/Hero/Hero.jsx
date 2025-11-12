@@ -25,7 +25,6 @@ const Hero = () => {
       ? `${years} yr${years > 1 ? "s" : ""} ${months} mo${months > 1 ? "s" : ""}`
       : `${months} mo${months > 1 ? "s" : ""}`;
 
-
   return (
     <div className="pb-4 lg:mb-36 max-w-7xl mx-auto px-4">
       {/* Hero Section */}
@@ -35,7 +34,7 @@ const Hero = () => {
             <img
               src={avatar}
               alt="Hieu Tran"
-              className="border border-stone-900 rounded-3xl w-[450px] h-[500px] object-cover"
+              className="border border-stone-900 rounded-3xl w-[90%] max-w-[320px] h-auto object-cover"
             />
           </div>
         </div>

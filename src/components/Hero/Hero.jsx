@@ -43,10 +43,10 @@ const Hero = () => {
             <h2 className="pb-2 text-4xl tracking-tighter lg:text-8xl text-white">
               Hieu Tran
             </h2>
-            <span className="text-stone-200 text-3xl tracking-tight font-medium">
+            <span className="text-stone-200 text-4xl tracking-tight font-medium">
               Software Engineer
             </span>
-            <p className="my-2 max-w-lg py-6 text-xl leading-relaxed tracking-tighter text-justify text-stone-300">
+            <p className="my-2 max-w-lg py-6 text-2xl leading-relaxed tracking-tighter text-justify text-stone-300">
               {HERO_CONTENT}
             </p>
           </div>

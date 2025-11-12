@@ -1,4 +1,3 @@
-import React from 'react';
 import { Briefcase, GraduationCap, Award } from 'lucide-react';
 import avatar from "../../assets/1762969814216.png";
 import isbLogo from "../../assets/isb.jpg";
@@ -7,9 +6,26 @@ import iigLogo from "../../assets/iig.png";
 import jlptLogo from "../../assets/jlpt.webp";
 import dutLogo from "../../assets/dut.jpg";
 
-const HERO_CONTENT = "I am a passionate Java Developer with a strong foundation in software development and a keen interest in building scalable applications. Currently working at ISB Vietnam Company, I bring hands-on experience in full-stack development and a commitment to continuous learning.";
+const HERO_CONTENT =
+  "I am a passionate Java Developer with a strong foundation in software development and a keen interest in building scalable applications. Currently working at ISB Vietnam Company, I bring hands-on experience in full-stack development and a commitment to continuous learning.";
 
 const Hero = () => {
+  const startDate = new Date(2025, 2); // Tháng 3/2025 (JS đếm tháng từ 0)
+  const now = new Date();
+
+  const diffInMonths =
+    (now.getFullYear() - startDate.getFullYear()) * 12 +
+    (now.getMonth() - startDate.getMonth());
+
+  const years = Math.floor(diffInMonths / 12);
+  const months = diffInMonths % 12;
+
+  const experienceDuration =
+    years > 0
+      ? `${years} yr${years > 1 ? "s" : ""} ${months} mo${months > 1 ? "s" : ""}`
+      : `${months} mo${months > 1 ? "s" : ""}`;
+
+
   return (
     <div className="pb-4 lg:mb-36 max-w-7xl mx-auto px-4">
       {/* Hero Section */}
@@ -56,7 +72,9 @@ const Hero = () => {
             <div className="flex-1">
               <h4 className="text-xl font-semibold text-white">Java Software Developer</h4>
               <p className="text-stone-300">ISB Vietnam Company (IVC) · Full-time</p>
-              <p className="text-stone-400 text-sm">Mar 2025 - Present · 9 mos</p>
+              <p className="text-stone-400 text-sm">
+                Mar 2025 - Present · {experienceDuration}
+              </p>
               <p className="text-stone-400 text-sm">Ho Chi Minh City, Vietnam · On-site</p>
             </div>
           </div>
@@ -87,12 +105,13 @@ const Hero = () => {
 
         <div className="flex gap-4">
           <div className="w-16 h-16 bg-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0">
-              <img src={dutLogo} alt="DUT" className="w-full h-full object-cover" />
-
+            <img src={dutLogo} alt="DUT" className="w-full h-full object-cover" />
           </div>
           <div className="flex-1">
-            <h4 className="text-xl font-semibold text-white">Danang University of Science and Technology</h4>
-            <p className="text-stone-300">Bachelor's degree, Information Technology</p>
+            <h4 className="text-xl font-semibold text-white">
+              Danang University of Science and Technology
+            </h4>
+            <p className="text-stone-300">Bachelor&rsquo;s degree, Information Technology</p>
             <p className="text-stone-400 text-sm">Aug 2020 - Aug 2024</p>
           </div>
         </div>

@@ -45,9 +45,9 @@ const Hero = () => {
       : `${months} mo${months > 1 ? "s" : ""}`;
 
   return (
-    <div className="flex gap-8 pb-4 lg:mb-36 max-w-full mx-auto px-4">
-      {/* Portfolio Section - 75% */}
-      <div className="flex-[3] max-w-[976px]">
+    <div className="flex flex-col lg:flex-row gap-4 md:gap-6 lg:gap-8 pb-4 lg:mb-36 w-full mx-auto px-3 md:px-4">
+      {/* Portfolio Section - Responsive */}
+      <div className="w-full lg:flex-[3] max-w-full md:max-w-2xl lg:max-w-[976px]">
         {/* Hero Section */}
         <motion.div
           initial="hidden"

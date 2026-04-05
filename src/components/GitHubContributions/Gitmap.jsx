@@ -250,6 +250,8 @@ export default function Gitmap({
                         : "",
                     )}
                     style={{
+                      gridRow: row + 1,
+                      gridColumn: col + 1,
                       backgroundColor: day
                         ? colors[LEVEL_COLORS[day.level]] || colors.empty
                         : "transparent",

@@ -88,7 +88,7 @@ function getMonthLabels(weeks, cellSize, cellGap) {
     if (firstOfMonth) {
       const date = parse(firstOfMonth.date, "yyyy-MM-dd", new Date());
       const xOffset = i * cellTotal;
-      if (!labels.length || xOffset - labels[labels.length - 1].xOffset >= 28) {
+      if (!labels.length || xOffset - labels[labels.length - 1].xOffset >= 60) {
         labels.push({ month: MONTHS[getMonth(date)], xOffset });
       }
     }

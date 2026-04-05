@@ -42,6 +42,9 @@ const LEVEL_COLORS = {
   2: "level2",
   3: "level3",
   4: "level4",
+  5: "level5",
+  6: "level6",
+  7: "level7",
 };
 
 function generateWeeks(from, to, contributions) {
@@ -246,16 +249,15 @@ export default function Gitmap({
               >
                 {showCounts && day.count > 0 && (
                   <span
-                    className="font-mono leading-none pointer-events-none"
+                    className="font-mono leading-none pointer-events-none font-bold"
                     style={{
-                      fontSize: `${Math.max(6 + (cellSize > 16 ? 2 : cellSize > 14 ? 1 : 0), 5)}px`,
-                      color:
-                        day.level <= 1
-                          ? "#374151"
-                          : day.level <= 2
-                            ? "#1f2937"
-                            : "#ffffff",
-                      fontWeight: "600",
+                      fontSize: `${Math.max(8 + (cellSize > 16 ? 2 : cellSize > 14 ? 2 : 1), 7)}px`,
+                      color: day.level <= 2 ? "#1f2937" : "#ffffff",
+                      fontWeight: "700",
+                      textShadow:
+                        day.level <= 2
+                          ? "0 0 2px rgba(255,255,255,0.3)"
+                          : "0 0 1px rgba(0,0,0,0.2)",
                     }}
                   >
                     {day.count}

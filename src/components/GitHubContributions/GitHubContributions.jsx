@@ -13,10 +13,13 @@ async function fetchContributions(username) {
 
 function calculateLevel(count) {
   if (count === 0) return 0;
-  if (count <= 9) return 1;
-  if (count <= 19) return 2;
-  if (count <= 29) return 3;
-  return 4;
+  if (count <= 3) return 1;
+  if (count <= 6) return 2;
+  if (count <= 9) return 3;
+  if (count <= 12) return 4;
+  if (count <= 15) return 5;
+  if (count <= 20) return 6;
+  return 7;
 }
 
 export default function GitHubContributions({ username = "trandanghieu" }) {
@@ -74,10 +77,13 @@ export default function GitHubContributions({ username = "trandanghieu" }) {
 
   const colors = {
     empty: "#ebedf0",
-    level1: "#9be9a8",
-    level2: "#40c463",
-    level3: "#30a14e",
-    level4: "#216e39",
+    level1: "#c6e48b",
+    level2: "#7bc96f",
+    level3: "#239a3b",
+    level4: "#196127",
+    level5: "#0d3c26",
+    level6: "#06262d",
+    level7: "#05202b",
   };
 
   const totalContributions = useMemo(() => {
@@ -156,13 +162,16 @@ export default function GitHubContributions({ username = "trandanghieu" }) {
       {/* Legend */}
       <div className="flex items-center justify-end gap-4 text-xs text-slate-400">
         <span>Less</span>
-        <div className="flex gap-1.5">
+        <div className="flex gap-1">
           {[
             colors.empty,
             colors.level1,
             colors.level2,
             colors.level3,
             colors.level4,
+            colors.level5,
+            colors.level6,
+            colors.level7,
           ].map((c) => (
             <div
               key={c}

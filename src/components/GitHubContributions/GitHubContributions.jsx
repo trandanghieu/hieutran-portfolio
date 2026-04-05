@@ -112,15 +112,15 @@ export default function GitHubContributions({ username = "trandanghieu" }) {
   }
 
   return (
-    <div className="w-full space-y-4">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <h4 className="text-base font-semibold text-white">
+    <div className="w-full space-y-4 overflow-x-auto">
+      {/* Header - Responsive flex */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <h4 className="text-sm sm:text-base font-semibold text-white break-words">
           {totalContributions} contributions in{" "}
           {selectedYear ? selectedYear : "the last 365 days"}
         </h4>
         {years.length > 1 && (
-          <div className="relative">
+          <div className="relative flex-shrink-0">
             <select
               value={selectedYear?.toString() || ""}
               onChange={(e) =>
@@ -159,9 +159,9 @@ export default function GitHubContributions({ username = "trandanghieu" }) {
         />
       </div>
 
-      {/* Legend */}
-      <div className="flex items-center justify-end gap-4 text-xs text-slate-400">
-        <span>Less</span>
+      {/* Legend - Responsive */}
+      <div className="flex flex-wrap items-center justify-center sm:justify-end gap-3 sm:gap-4 text-xs text-slate-400 overflow-x-auto pb-2">
+        <span className="flex-shrink-0">Less</span>
         <div className="flex gap-1">
           {[
             colors.empty,
@@ -175,12 +175,12 @@ export default function GitHubContributions({ username = "trandanghieu" }) {
           ].map((c) => (
             <div
               key={c}
-              className="w-3 h-3 rounded-sm"
+              className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-sm flex-shrink-0"
               style={{ backgroundColor: c, border: "1px solid #404854" }}
             />
           ))}
         </div>
-        <span>More</span>
+        <span className="flex-shrink-0">More</span>
       </div>
     </div>
   );

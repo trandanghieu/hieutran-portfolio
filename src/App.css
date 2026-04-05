@@ -1,0 +1,103 @@
+/* GitHub Calendar Custom Styling */
+.github-calendar {
+  background: transparent !important;
+}
+
+.github-calendar-container {
+  background: transparent !important;
+  display: block !important;
+}
+
+.github-calendar svg {
+  background: transparent !important;
+  display: block !important;
+  margin: 0 auto !important;
+}
+
+.github-calendar-container text {
+  fill: #a1a1a1 !important;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif !important;
+  font-size: 12px !important;
+}
+
+.github-calendar-container rect {
+  stroke: #30363d !important;
+  stroke-width: 1px !important;
+  fill: #0d1117 !important;
+}
+
+.github-calendar-container .day {
+  fill: #0d1117 !important;
+  stroke: #30363d !important;
+  stroke-width: 1px !important;
+  cursor: pointer;
+  transition: all 0.2s ease !important;
+}
+
+.github-calendar-container .day:hover {
+  stroke: #58a6ff !important;
+  stroke-width: 2px !important;
+  filter: brightness(1.2) !important;
+}
+
+.github-calendar-container .contrib-number {
+  fill: #1f6feb !important;
+}
+
+.github-calendar-container .contrib-more {
+  fill: #238636 !important;
+}
+
+.github-calendar-container .tooltip {
+  background-color: #0d1117 !important;
+  border: 1px solid #30363d !important;
+  color: #c9d1d9 !important;
+  border-radius: 6px !important;
+  padding: 8px 12px !important;
+  font-size: 12px !important;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .github-calendar-container {
+    overflow-x: auto !important;
+  }
+
+  .github-calendar-container svg {
+    min-width: 800px !important;
+  }
+}
+
+/* Color scheme for contributions */
+.github-calendar-container .day[data-count="0"] {
+  fill: #0d1117 !important;
+}
+
+.github-calendar-container .day[data-count="1"] {
+  fill: #0e4429 !important;
+}
+
+.github-calendar-container .day[data-count="2"],
+.github-calendar-container .day[data-count="3"] {
+  fill: #006d32 !important;
+}
+
+.github-calendar-container .day[data-count="4"],
+.github-calendar-container .day[data-count="5"],
+.github-calendar-container .day[data-count="6"] {
+  fill: #26a641 !important;
+}
+
+.github-calendar-container .day[data-count="7"],
+.github-calendar-container .day[data-count="8"],
+.github-calendar-container .day[data-count="9"] {
+  fill: #39d353 !important;
+}
+
+.github-calendar-container .day[data-count="10"] {
+  fill: #7ee787 !important;
+}

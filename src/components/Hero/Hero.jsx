@@ -1,4 +1,4 @@
-import { Briefcase, GraduationCap, Award } from 'lucide-react';
+import { Briefcase, GraduationCap, Award, Github } from "lucide-react";
 import { motion } from "framer-motion";
 import avatar from "../../assets/1762969814216.png";
 import isbLogo from "../../assets/isb.jpg";
@@ -6,6 +6,7 @@ import zigexnLogo from "../../assets/zigexn.png";
 import iigLogo from "../../assets/iig.png";
 import jlptLogo from "../../assets/jlpt.webp";
 import dutLogo from "../../assets/dut.jpg";
+import GitHubContributions from "../GitHubContributions/GitHubContributions";
 
 const HERO_CONTENT =
   "I am a passionate Java Developer with a strong foundation in software development and a keen interest in building scalable applications. Currently working at ISB Vietnam Company, I bring hands-on experience in full-stack development and a commitment to continuous learning.";
@@ -18,12 +19,12 @@ const fadeInUp = {
 
 const staggerContainer = {
   hidden: { opacity: 0 },
-  visible: { 
+  visible: {
     opacity: 1,
     transition: {
       staggerChildren: 0.2,
-    }
-  }
+    },
+  },
 };
 
 const Hero = () => {
@@ -103,28 +104,50 @@ const Hero = () => {
           {/* Current Job */}
           <motion.div variants={fadeInUp} className="flex gap-4">
             <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
-              <img src={isbLogo} alt="ISB Vietnam" className="w-full h-full object-cover" />
+              <img
+                src={isbLogo}
+                alt="ISB Vietnam"
+                className="w-full h-full object-cover"
+              />
             </div>
             <div className="flex-1">
-              <h4 className="text-xl font-semibold text-white">Java Software Developer</h4>
-              <p className="text-stone-300">ISB Vietnam Company (IVC) · Full-time</p>
+              <h4 className="text-xl font-semibold text-white">
+                Java Software Developer
+              </h4>
+              <p className="text-stone-300">
+                ISB Vietnam Company (IVC) · Full-time
+              </p>
               <p className="text-stone-400 text-sm">
                 Mar 2025 - Present · {experienceDuration}
               </p>
-              <p className="text-stone-400 text-sm">Ho Chi Minh City, Vietnam · On-site</p>
+              <p className="text-stone-400 text-sm">
+                Ho Chi Minh City, Vietnam · On-site
+              </p>
             </div>
           </motion.div>
 
           {/* Previous Job */}
           <motion.div variants={fadeInUp} className="flex gap-4">
             <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
-              <img src={zigexnLogo} alt="ZIGExN VeNtura" className="w-full h-full object-cover" />
+              <img
+                src={zigexnLogo}
+                alt="ZIGExN VeNtura"
+                className="w-full h-full object-cover"
+              />
             </div>
             <div className="flex-1">
-              <h4 className="text-xl font-semibold text-white">Intern Ruby On Rails</h4>
-              <p className="text-stone-300">ZIGExN VeNtura Co., Ltd · Full-time</p>
-              <p className="text-stone-400 text-sm">Sep 2024 - Dec 2024 · 4 mos</p>
-              <p className="text-stone-400 text-sm">Da Nang City, Vietnam · On-site</p>
+              <h4 className="text-xl font-semibold text-white">
+                Intern Ruby On Rails
+              </h4>
+              <p className="text-stone-300">
+                ZIGExN VeNtura Co., Ltd · Full-time
+              </p>
+              <p className="text-stone-400 text-sm">
+                Sep 2024 - Dec 2024 · 4 mos
+              </p>
+              <p className="text-stone-400 text-sm">
+                Da Nang City, Vietnam · On-site
+              </p>
             </div>
           </motion.div>
         </motion.div>
@@ -146,15 +169,30 @@ const Hero = () => {
           </h3>
         </div>
 
-        <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className="flex gap-4">
-          <motion.div variants={fadeInUp} className="w-16 h-16 bg-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0">
-            <img src={dutLogo} alt="DUT" className="w-full h-full object-cover" />
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="flex gap-4"
+        >
+          <motion.div
+            variants={fadeInUp}
+            className="w-16 h-16 bg-yellow-600 rounded-lg flex items-center justify-center flex-shrink-0"
+          >
+            <img
+              src={dutLogo}
+              alt="DUT"
+              className="w-full h-full object-cover"
+            />
           </motion.div>
           <motion.div variants={fadeInUp} className="flex-1">
             <h4 className="text-xl font-semibold text-white">
               Danang University of Science and Technology
             </h4>
-            <p className="text-stone-300">Bachelor&rsquo;s degree, Information Technology</p>
+            <p className="text-stone-300">
+              Bachelor&rsquo;s degree, Information Technology
+            </p>
             <p className="text-stone-400 text-sm">Aug 2020 - Aug 2024</p>
           </motion.div>
         </motion.div>
@@ -176,31 +214,67 @@ const Hero = () => {
           </h3>
         </div>
 
-        <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className="space-y-6">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="space-y-6"
+        >
           {/* TOEIC */}
           <motion.div variants={fadeInUp} className="flex gap-4">
             <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
-              <img src={iigLogo} alt="IIG Vietnam" className="w-full h-full object-cover" />
+              <img
+                src={iigLogo}
+                alt="IIG Vietnam"
+                className="w-full h-full object-cover"
+              />
             </div>
             <div className="flex-1">
               <h4 className="text-xl font-semibold text-white">TOEIC 755</h4>
               <p className="text-stone-300">IIG Vietnam</p>
-              <p className="text-stone-400 text-sm">Issued Nov 2025 · Expires Nov 2027</p>
+              <p className="text-stone-400 text-sm">
+                Issued Nov 2025 · Expires Nov 2027
+              </p>
             </div>
           </motion.div>
 
           {/* JLPT */}
           <motion.div variants={fadeInUp} className="flex gap-4">
             <div className="w-16 h-16 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
-              <img src={jlptLogo} alt="JLPT" className="w-full h-full object-cover" />
+              <img
+                src={jlptLogo}
+                alt="JLPT"
+                className="w-full h-full object-cover"
+              />
             </div>
             <div className="flex-1">
               <h4 className="text-xl font-semibold text-white">N4</h4>
-              <p className="text-stone-300">JLPT - Japanese Language Proficiency Test</p>
+              <p className="text-stone-300">
+                JLPT - Japanese Language Proficiency Test
+              </p>
               <p className="text-stone-400 text-sm">Issued Dec 2024</p>
             </div>
           </motion.div>
         </motion.div>
+      </motion.div>
+
+      {/* GitHub Contributions Section */}
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={fadeInUp}
+        transition={{ duration: 0.8, delay: 0.4 }}
+        className="mt-12 border border-stone-800 rounded-lg p-6"
+      >
+        <div className="mb-6">
+          <h3 className="text-3xl font-semibold flex items-center gap-3 text-white">
+            <Github className="w-8 h-8" />
+            GitHub Contributions
+          </h3>
+        </div>
+        <GitHubContributions username="trandanghieu" />
       </motion.div>
     </div>
   );

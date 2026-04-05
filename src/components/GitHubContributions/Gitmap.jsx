@@ -80,6 +80,8 @@ function generateMobileGrid(weeks) {
 function getMonthLabels(weeks, cellSize, cellGap) {
   const labels = [];
   const cellTotal = cellSize + cellGap;
+  // Adaptive minimum gap based on cell size
+  const minGap = Math.max(cellSize * 8, 80);
 
   weeks.forEach((week, i) => {
     const firstOfMonth = week.days.find(
@@ -88,7 +90,10 @@ function getMonthLabels(weeks, cellSize, cellGap) {
     if (firstOfMonth) {
       const date = parse(firstOfMonth.date, "yyyy-MM-dd", new Date());
       const xOffset = i * cellTotal;
-      if (!labels.length || xOffset - labels[labels.length - 1].xOffset >= 60) {
+      if (
+        !labels.length ||
+        xOffset - labels[labels.length - 1].xOffset >= minGap
+      ) {
         labels.push({ month: MONTHS[getMonth(date)], xOffset });
       }
     }

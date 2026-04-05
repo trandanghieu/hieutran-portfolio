@@ -69,19 +69,10 @@ function generateWeeks(from, to, contributions) {
   }));
 }
 
-function generateMobileGrid(weeks) {
-  // Transform weeks grid to mobile grid: 7 rows (days of week) × N columns (weeks)
-  return Array.from({ length: 7 }, (_, dayOfWeek) => ({
-    dayOfWeek,
-    weeks: weeks.map((week) => week.days[dayOfWeek] || null),
-  }));
-}
-
 function getMonthLabels(weeks, cellSize, cellGap) {
   const labels = [];
   const cellTotal = cellSize + cellGap;
-  // Adaptive minimum gap based on cell size
-  const minGap = Math.max(cellSize * 8, 80);
+  const minGap = 35; // Khoảng cách tối thiểu để không đè chữ tháng
 
   weeks.forEach((week, i) => {
     const firstOfMonth = week.days.find(
@@ -121,100 +112,43 @@ export default function Gitmap({
 }) {
   const containerRef = useRef(null);
   const [responsiveCellSize, setResponsiveCellSize] = useState(cellSize);
-  const [isMobileMode, setIsMobileMode] = useState(false);
 
+  // Giữ nguyên logic ngang (Desktop mode)
   const cellTotal = responsiveCellSize + cellGap;
   const weeks = useMemo(
     () => generateWeeks(from, to, contributions),
     [from, to, contributions],
   );
-  const mobileGrid = useMemo(() => generateMobileGrid(weeks), [weeks]);
+
   const monthLabels = useMemo(
     () => getMonthLabels(weeks, responsiveCellSize, cellGap),
     [weeks, responsiveCellSize, cellGap],
   );
 
-  // Responsive sizing
-  useMemo(() => {
-    const calculateCellSize = () => {
-      if (!containerRef.current) return cellSize;
-
-      const containerWidth = containerRef.current.offsetWidth;
-      const mobile = containerWidth < 768;
-      const availableWidth =
-        containerWidth - (showDays && !mobile ? DAY_LABEL_WIDTH : 0) - 16; // 16 for padding
-
-      // Mobile: 7 cols (days of week), N rows (weeks)
-      // Desktop: N cols (weeks), 7 rows (days of week)
-      const cellsPerRow = mobile ? 7 : weeks.length;
-      const gapsPerRow = cellsPerRow > 0 ? cellsPerRow - 1 : 0;
-      const totalGapWidth = gapsPerRow * cellGap;
-
-      let newCellSize = Math.floor(
-        (availableWidth - totalGapWidth) / cellsPerRow,
-      );
-
-      // Responsive scaling based on screen size
-      if (containerWidth < 640) {
-        // Small mobile: smaller cells
-        newCellSize = Math.max(Math.floor(newCellSize * 0.8), 6);
-      } else if (containerWidth < 1024) {
-        // Tablet: medium cells
-        newCellSize = Math.max(Math.floor(newCellSize * 0.95), 8);
-      }
-
-      // Clamp between reasonable min/max
-      return Math.max(6, Math.min(newCellSize, 16));
-    };
-
-    const newSize = calculateCellSize();
-    setResponsiveCellSize(newSize);
-  }, [weeks.length, mobileGrid.length]);
-
-  // Handle window resize
+  // Responsive: Chỉ thu nhỏ nhẹ cell size nếu màn hình quá bé, còn lại ưu tiên scroll ngang
   useEffect(() => {
     const handleResize = () => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.offsetWidth;
-        const mobile = containerWidth < 768;
-        setIsMobileMode(mobile);
-
-        const availableWidth =
-          containerWidth - (showDays && !mobile ? DAY_LABEL_WIDTH : 0) - 16;
-
-        const cellsPerRow = mobile ? 7 : weeks.length;
-        const gapsPerRow = cellsPerRow > 0 ? cellsPerRow - 1 : 0;
-        const totalGapWidth = gapsPerRow * cellGap;
-
-        let newCellSize = Math.floor(
-          (availableWidth - totalGapWidth) / cellsPerRow,
-        );
-
         if (containerWidth < 640) {
-          newCellSize = Math.max(Math.floor(newCellSize * 0.8), 6);
-        } else if (containerWidth < 1024) {
-          newCellSize = Math.max(Math.floor(newCellSize * 0.95), 8);
+          setResponsiveCellSize(Math.max(cellSize - 2, 8));
+        } else {
+          setResponsiveCellSize(cellSize);
         }
-
-        setResponsiveCellSize(Math.max(6, Math.min(newCellSize, 16)));
       }
     };
-
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [weeks.length, mobileGrid.length, cellGap, showDays]);
+  }, [cellSize]);
 
-  const gridHeight = isMobileMode
-    ? mobileGrid.length * responsiveCellSize + (mobileGrid.length - 1) * cellGap
-    : 7 * responsiveCellSize + 6 * cellGap;
-  const gridWidth = isMobileMode
-    ? 7 * responsiveCellSize + 6 * cellGap
-    : weeks.length * responsiveCellSize + (weeks.length - 1) * cellGap;
+  const gridHeight = 7 * responsiveCellSize + 6 * cellGap;
+  const gridWidth =
+    weeks.length * responsiveCellSize + (weeks.length - 1) * cellGap;
 
   const tooltipRef = useRef(null);
   const gridRef = useRef(null);
   const [tooltipData, setTooltipData] = useState(null);
-  const lastCellData = useRef(null);
 
   const handleMouseMove = useCallback((e) => {
     const target = e.target;
@@ -226,249 +160,143 @@ export default function Gitmap({
       tooltipRef.current.style.top = `${e.clientY}px`;
 
       if (date && count !== undefined) {
-        const newData = { date, count: parseInt(count, 10) };
-        lastCellData.current = newData;
-        setTooltipData(newData);
-      }
-
-      if (gridRef.current) {
-        const rect = gridRef.current.getBoundingClientRect();
-        const isInGrid =
-          e.clientX >= rect.left &&
-          e.clientX <= rect.right &&
-          e.clientY >= rect.top &&
-          e.clientY <= rect.bottom;
-
-        if (isInGrid && lastCellData.current) {
-          tooltipRef.current.style.opacity = "1";
-        } else if (!isInGrid) {
-          tooltipRef.current.style.opacity = "0";
-        }
+        setTooltipData({ date, count: parseInt(count, 10) });
+        tooltipRef.current.style.opacity = "1";
+      } else {
+        tooltipRef.current.style.opacity = "0";
       }
     }
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    if (tooltipRef.current) {
-      tooltipRef.current.style.opacity = "0";
-    }
-    lastCellData.current = null;
   }, []);
 
   return (
     <div
       ref={containerRef}
-      className={cn("relative w-full overflow-x-auto", className)}
-      style={{
-        paddingLeft: showDays && !isMobileMode ? DAY_LABEL_WIDTH : 0,
-        paddingTop: showMonths && !isMobileMode ? MONTH_LABEL_HEIGHT + 4 : 0,
-      }}
+      className={cn("w-full overflow-x-auto select-none pb-4", className)}
       onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      onMouseLeave={() => (tooltipRef.current.style.opacity = "0")}
     >
-      {showMonths && !isMobileMode && (
-        <div
-          className="absolute left-0 right-0"
-          style={{
-            top: "2px",
-            left: showDays ? DAY_LABEL_WIDTH : 0,
-            height: MONTH_LABEL_HEIGHT,
-          }}
-        >
-          {monthLabels.map(({ month, xOffset }, i) => (
-            <span
-              key={`${month}-${i}`}
-              className="absolute text-xs text-slate-400 font-medium leading-none"
-              style={{
-                left: xOffset,
-                whiteSpace: "nowrap",
-              }}
-            >
-              {month}
-            </span>
-          ))}
-        </div>
-      )}
-
-      {showDays && !isMobileMode && (
-        <div
-          className="absolute left-0 flex flex-col"
-          style={{
-            top: showMonths ? MONTH_LABEL_HEIGHT + 4 : 0,
-            width: DAY_LABEL_WIDTH,
-            height: 7 * responsiveCellSize + 6 * cellGap,
-            paddingRight: 8,
-          }}
-        >
-          {DAY_LABELS.map(({ label, row }) => (
-            <span
-              key={label}
-              className="absolute text-xs text-slate-500 leading-none"
-              style={{
-                top: row * cellTotal + responsiveCellSize / 2,
-                transform: "translateY(-50%)",
-                right: 7,
-              }}
-            >
-              {label}
-            </span>
-          ))}
-        </div>
-      )}
-
-      {showDays && isMobileMode && (
-        <div
-          className="flex gap-1"
-          style={{
-            marginBottom: "8px",
-            justifyContent: "center",
-          }}
-        >
-          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-            <span
-              key={day}
-              className="text-xs text-slate-500 font-medium"
-              style={{
-                width: responsiveCellSize,
-                textAlign: "center",
-              }}
-            >
-              {day}
-            </span>
-          ))}
-        </div>
-      )}
-
+      {/* Wrapper inline-block với min-width: max-content để ép scroll ngang */}
       <div
-        ref={gridRef}
-        className="grid"
         style={{
-          gridTemplateRows: isMobileMode
-            ? `repeat(${mobileGrid[0]?.weeks.length || 52}, ${responsiveCellSize}px)`
-            : `repeat(7, ${responsiveCellSize}px)`,
-          gridTemplateColumns: isMobileMode
-            ? `repeat(7, ${responsiveCellSize}px)`
-            : `repeat(${weeks.length}, ${responsiveCellSize}px)`,
-          gap: cellGap,
-          width: gridWidth,
-          height: gridHeight,
+          minWidth: "max-content",
+          display: "inline-block",
+          padding: "4px",
         }}
       >
-        {isMobileMode
-          ? mobileGrid.map((dayRow, rowIndex) =>
-              dayRow.weeks.map((day, colIndex) =>
-                day === null ? (
-                  <div
-                    key={`${rowIndex}-${colIndex}`}
-                    style={{ gridRow: rowIndex + 1, gridColumn: colIndex + 1 }}
-                  />
-                ) : (
-                  <div
-                    key={`${rowIndex}-${colIndex}`}
-                    className="rounded-[2px] cursor-pointer hover:ring-1 hover:ring-slate-400 transition-all flex items-center justify-center"
-                    style={{
-                      gridRow: rowIndex + 1,
-                      gridColumn: colIndex + 1,
-                      backgroundColor:
-                        colors[LEVEL_COLORS[day.level]] || colors.empty,
-                      width: responsiveCellSize,
-                      height: responsiveCellSize,
-                      border: "1px solid rgba(0,0,0,0.1)",
-                    }}
-                    data-date={day.date}
-                    data-count={day.count}
+        <div className="flex">
+          {/* Cột Day Labels cố định bên trái */}
+          {showDays && (
+            <div
+              className="relative flex-shrink-0"
+              style={{
+                width: DAY_LABEL_WIDTH,
+                height: gridHeight,
+                marginTop: showMonths ? MONTH_LABEL_HEIGHT + 4 : 0,
+              }}
+            >
+              {DAY_LABELS.map(({ label, row }) => (
+                <span
+                  key={label}
+                  className="absolute text-[10px] text-slate-500 font-medium"
+                  style={{
+                    top: row * cellTotal + responsiveCellSize / 2,
+                    transform: "translateY(-50%)",
+                  }}
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Khối chính gồm Months và Grid */}
+          <div className="flex-1">
+            {showMonths && (
+              <div
+                className="relative mb-1"
+                style={{ height: MONTH_LABEL_HEIGHT, width: gridWidth }}
+              >
+                {monthLabels.map(({ month, xOffset }, i) => (
+                  <span
+                    key={`${month}-${i}`}
+                    className="absolute text-[10px] text-slate-400 font-medium leading-none"
+                    style={{ left: xOffset, whiteSpace: "nowrap" }}
                   >
-                    {showCounts && day.count > 0 && (
-                      <span
-                        className="font-mono leading-none pointer-events-none font-bold"
-                        style={{
-                          fontSize: `${Math.max(8 + (responsiveCellSize > 16 ? 2 : responsiveCellSize > 14 ? 2 : 1), 7)}px`,
-                          color: day.level <= 2 ? "#1f2937" : "#ffffff",
-                          fontWeight: "700",
-                          textShadow:
-                            day.level <= 2
-                              ? "0 0 2px rgba(255,255,255,0.3)"
-                              : "0 0 1px rgba(0,0,0,0.2)",
-                        }}
-                      >
-                        {day.count}
-                      </span>
-                    )}
-                  </div>
-                ),
-              ),
-            )
-          : weeks.map((week, col) =>
-              week.days.map((day, row) =>
-                day === null ? (
-                  <div
-                    key={`${col}-${row}`}
-                    style={{ gridRow: row + 1, gridColumn: col + 1 }}
-                  />
-                ) : (
-                  <div
-                    key={`${col}-${row}`}
-                    className="rounded-[2px] cursor-pointer hover:ring-1 hover:ring-slate-400 transition-all flex items-center justify-center"
-                    style={{
-                      gridRow: row + 1,
-                      gridColumn: col + 1,
-                      backgroundColor:
-                        colors[LEVEL_COLORS[day.level]] || colors.empty,
-                      width: responsiveCellSize,
-                      height: responsiveCellSize,
-                      border: "1px solid rgba(0,0,0,0.1)",
-                    }}
-                    data-date={day.date}
-                    data-count={day.count}
-                  >
-                    {showCounts && day.count > 0 && (
-                      <span
-                        className="font-mono leading-none pointer-events-none font-bold"
-                        style={{
-                          fontSize: `${Math.max(8 + (responsiveCellSize > 16 ? 2 : responsiveCellSize > 14 ? 2 : 1), 7)}px`,
-                          color: day.level <= 2 ? "#1f2937" : "#ffffff",
-                          fontWeight: "700",
-                          textShadow:
-                            day.level <= 2
-                              ? "0 0 2px rgba(255,255,255,0.3)"
-                              : "0 0 1px rgba(0,0,0,0.2)",
-                        }}
-                      >
-                        {day.count}
-                      </span>
-                    )}
-                  </div>
-                ),
-              ),
+                    {month}
+                  </span>
+                ))}
+              </div>
             )}
+
+            <div
+              ref={gridRef}
+              className="grid"
+              style={{
+                gridTemplateRows: `repeat(7, ${responsiveCellSize}px)`,
+                gridTemplateColumns: `repeat(${weeks.length}, ${responsiveCellSize}px)`,
+                gap: cellGap,
+                width: gridWidth,
+                height: gridHeight,
+              }}
+            >
+              {weeks.map((week, col) =>
+                week.days.map((day, row) => (
+                  <div
+                    key={`${col}-${row}`}
+                    className={cn(
+                      "rounded-[2px] transition-all flex items-center justify-center border border-black/5",
+                      day
+                        ? "cursor-pointer hover:ring-1 hover:ring-slate-400"
+                        : "",
+                    )}
+                    style={{
+                      backgroundColor: day
+                        ? colors[LEVEL_COLORS[day.level]] || colors.empty
+                        : "transparent",
+                      width: responsiveCellSize,
+                      height: responsiveCellSize,
+                    }}
+                    data-date={day?.date}
+                    data-count={day?.count}
+                  >
+                    {showCounts && day && day.count > 0 && (
+                      <span
+                        className="font-mono leading-none pointer-events-none font-bold"
+                        style={{
+                          fontSize: `${Math.max(responsiveCellSize - 6, 7)}px`,
+                          color: day.level <= 2 ? "#1f2937" : "#ffffff",
+                        }}
+                      >
+                        {day.count}
+                      </span>
+                    )}
+                  </div>
+                )),
+              )}
+            </div>
+          </div>
+        </div>
       </div>
 
+      {/* Tooltip fixed to mouse */}
       <div
         ref={tooltipRef}
         className="pointer-events-none fixed z-50 opacity-0 transition-opacity"
-        style={{
-          transform: "translate(-50%, -100%) translateY(-8px)",
-        }}
+        style={{ transform: "translate(-50%, -100%) translateY(-10px)" }}
       >
-        <div className="relative rounded-sm bg-slate-900 px-2 py-1 text-xs text-white whitespace-nowrap shadow-lg">
+        <div className="relative rounded bg-slate-900 px-2 py-1 text-[11px] text-white whitespace-nowrap shadow-xl">
           {tooltipData && (
-            <>
-              <span className="font-medium">
-                {tooltipData.count} contribution
-                {tooltipData.count !== 1 ? "s" : ""}
-              </span>
-              <span className="text-xs ml-1">
-                on{" "}
-                {format(
-                  parse(tooltipData.date, "yyyy-MM-dd", new Date()),
-                  "MMM d, yyyy",
-                )}
-              </span>
-            </>
+            <span>
+              <strong>{tooltipData.count} contributions</strong> on{" "}
+              {format(
+                parse(tooltipData.date, "yyyy-MM-dd", new Date()),
+                "MMM d, yyyy",
+              )}
+            </span>
           )}
           <div
             className="absolute left-1/2 -translate-x-1/2 w-2 h-2 rotate-45 bg-slate-900"
-            style={{ bottom: -4, borderRadius: "1px" }}
+            style={{ bottom: -4 }}
           />
         </div>
       </div>
